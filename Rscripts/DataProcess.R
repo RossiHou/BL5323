@@ -1,5 +1,7 @@
 ###BL5323 Final Project###
 
+#Please remember to change the working directory when running on your laptop.
+
 ###library
 library(rgdal)
 library(sp)
