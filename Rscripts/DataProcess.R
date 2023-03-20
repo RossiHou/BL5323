@@ -80,6 +80,7 @@ plot(BGBio_VNM, main = "BG (VNM)")
 plot(SoC_VNM, main = "SoC (VNM)")
 
 
-
+#Additionality
+additionalC = (defRisk4>0.5)*total_CO2 
 
 
