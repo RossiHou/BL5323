@@ -69,12 +69,15 @@ plot(SoC_VNM, main = "Soil Carbon (VNM)")
 #resample
 AbGBio_VNM = resample(AbGBio_VNM, SoC_VNM, method = 'bilinear')
 BGBio_VNM = resample(BGBio_VNM, SoC_VNM, method = 'bilinear')
+#the unit of Biomass maps is Mg/ha (i.e. tons/ha)
 
 writeRaster(AbGBio_VNM, "./DataMap/AbGBio_VNM_30s.tif")
 writeRaster(BGBio_VNM, "./DataMap/BGBio_VNM_30s.tif")
 
-
-
+par(mfrow = c(1,3))
+plot(AbGBio_VNM, main = "AbG (VNM)")
+plot(BGBio_VNM, main = "BG (VNM)")
+plot(SoC_VNM, main = "SoC (VNM)")
 
 
 
