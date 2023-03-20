@@ -46,6 +46,7 @@ writeRaster(BGBio_VNM, "./DataMap/BGBio_VNM.tif")
 
 ###Comparison between two versions of aboveground biomass map
 AbGBio_VNM = rast("./DataMap/AbGBio_VNM.tif")
+BGBio_VNM = rast("./DataMap/BGBio_VNM.tif")
 
 AbGBio_Avi = rast("./DataMap/Avitabile_AGB_Map/Avitabile_AGB_Map.tif")
 AbGBio_Avi = project(AbGBio_Avi, crs(Country))
@@ -63,8 +64,14 @@ SoC = project(SoC, crs(Country))
 SoC_VNM = crop(SoC, VNM, mask = T)
 plot(SoC_VNM, main = "Soil Carbon (VNM)")
 
+###resolution: 30s
 
+#resample
+AbGBio_VNM = resample(AbGBio_VNM, SoC_VNM, method = 'bilinear')
+BGBio_VNM = resample(BGBio_VNM, SoC_VNM, method = 'bilinear')
 
+writeRaster(AbGBio_VNM, "./DataMap/AbGBio_VNM_30s.tif")
+writeRaster(BGBio_VNM, "./DataMap/BGBio_VNM_30s.tif")
 
 
 
