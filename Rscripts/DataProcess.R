@@ -57,6 +57,16 @@ plot(AbGBio_VNM, main = "2019 Prediction", range = c(0, 500))
 plot(AbGBio_Avi_VNM, main = "Avitabile", range = c(0, 500))
 
 
+###Soil carbon map
+SoC = rast("./DataMap/GSOCmap1.6.1.tif")
+SoC = project(SoC, crs(Country))
+SoC_VNM = crop(SoC, VNM, mask = T)
+plot(SoC_VNM, main = "Soil Carbon (VNM)")
+
+
+
+
+
 
 
 
