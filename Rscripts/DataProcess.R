@@ -44,10 +44,17 @@ writeRaster(deForRisk_VNM, "./DataMap/deForRisk_VNM.tif")
 writeRaster(AbGBio_VNM, "./DataMap/AbGBio_VNM.tif")
 writeRaster(BGBio_VNM, "./DataMap/BGBio_VNM.tif")
 
+###Comparison between two versions of aboveground biomass map
+AbGBio_VNM = rast("./DataMap/AbGBio_VNM.tif")
 
+AbGBio_Avi = rast("./DataMap/Avitabile_AGB_Map/Avitabile_AGB_Map.tif")
+AbGBio_Avi = project(AbGBio_Avi, crs(Country))
 
+AbGBio_Avi_VNM = crop(AbGBio_Avi, VNM, mask = T)
 
-
+par(mfrow = c(1,2))
+plot(AbGBio_VNM, main = "2019 Prediction", range = c(0, 500))
+plot(AbGBio_Avi_VNM, main = "Avitabile", range = c(0, 500))
 
 
 
