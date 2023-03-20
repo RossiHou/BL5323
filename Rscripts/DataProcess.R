@@ -79,6 +79,7 @@ plot(AbGBio_VNM, main = "AbG (VNM)")
 plot(BGBio_VNM, main = "BG (VNM)")
 plot(SoC_VNM, main = "SoC (VNM)")
 
+<<<<<<< HEAD
 #Sum of Biomass
 Bio_VNM = AbGBio_VNM + BGBio_VNM
 CO2_VNM = Bio_VNM*0.49*(44/12) + SoC_VNM*0.25*(44/12) + 2.1*(44/12)
@@ -116,5 +117,10 @@ plot(AgriRent_VNM, main = "Agricultural Rents (VNM, USD)")
 CCredit = CO2_VNM_deFor_5*100*1.066
 plot(CCredit, main = "Carbon Credit per hectare (USD)")
 
+=======
+
+#Additionality
+additionalC = (defRisk4>0.5)*total_CO2 
+>>>>>>> ce10dce20f4e73f86113c50f77ba8f7b790fcc5b
 
 
