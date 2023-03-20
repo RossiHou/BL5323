@@ -79,7 +79,42 @@ plot(AbGBio_VNM, main = "AbG (VNM)")
 plot(BGBio_VNM, main = "BG (VNM)")
 plot(SoC_VNM, main = "SoC (VNM)")
 
+#Sum of Biomass
+Bio_VNM = AbGBio_VNM + BGBio_VNM
+CO2_VNM = Bio_VNM*0.49*(44/12) + SoC_VNM*0.25*(44/12) + 2.1*(44/12)
+plot(CO2_VNM, main = "Potential CO2 Emissions (VNM)")
+ 
+PA_VNM = vect("./DataMap/WDPA_WDOECM_Mar2023_Public_VNM_shp/WDPA_WDOECM_Mar2023_Public_VNM_shp_2/WDPA_WDOECM_Mar2023_Public_VNM_shp-polygons.shp")
+PA_VNM = project(PA_VNM, crs(Country))
 
+plot(VNM, main = "WDPA (VNM)")
+plot(PA_VNM, add = T, col = 'green')
+
+deForRisk_VNM = rast("./DataMap/deForRisk_VNM.tif")
+deForRisk_VNM = project(deForRisk_VNM, crs(Country))
+deForRisk_VNM = resample(deForRisk_VNM, CO2_VNM, method = 'bilinear')
+
+CO2_VNM_deFor_3 = CO2_VNM*(deForRisk_VNM > 0.3)
+CO2_VNM_deFor_4 = CO2_VNM*(deForRisk_VNM > 0.4)
+CO2_VNM_deFor_5 = CO2_VNM*(deForRisk_VNM > 0.5)
+
+par(mfrow = c(1, 3))
+plot(CO2_VNM_deFor_3, main = "Additional Carbon (30%)")
+plot(PA_VNM, col = 'grey', alpha = 0.5, add = T)
+plot(CO2_VNM_deFor_4, main = "Additional Carbon (40%)")
+plot(PA_VNM, col = 'grey', alpha = 0.5, add = T)
+plot(CO2_VNM_deFor_5, main = "Additional Carbon (50%)")
+plot(PA_VNM, col = 'grey', alpha = 0.5, add = T)
+
+###the cost
+AgriRent = rast("./DataMap/Rent2016Com.tif")
+AgriRent = project(AgriRent, crs(Country))
+AgriRent_VNM = crop(AgriRent, VNM, mask = T)
+
+plot(AgriRent_VNM, main = "Agricultural Rents (VNM, USD)")
+#revenue (euro dollar)
+CCredit = CO2_VNM_deFor_5*100*1.066
+plot(CCredit, main = "Carbon Credit per hectare (USD)")
 
 
 
