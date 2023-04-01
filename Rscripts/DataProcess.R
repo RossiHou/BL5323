@@ -62,6 +62,7 @@ plot(AbGBio_Avi_VNM, main = "Avitabile", range = c(0, 500))
 SoC = rast("./DataMap/GSOCmap1.6.1.tif")
 SoC = project(SoC, crs(Country))
 SoC_VNM = crop(SoC, VNM, mask = T)
+writeRaster(SoC_VNM, "./DataMap/SoC_VNM.tif")
 plot(SoC_VNM, main = "Soil Carbon (VNM)")
 
 ###resolution: 30s
@@ -81,8 +82,12 @@ plot(SoC_VNM, main = "SoC (VNM)")
 
 <<<<<<< HEAD
 #Sum of Biomass
+AbGBio_VNM = rast("./DataMap/AbGBio_VNM_30s.tif")
+BGBio_VNM = rast("./DataMap/BGBio_VNM_30s.tif")
+
 Bio_VNM = AbGBio_VNM + BGBio_VNM
 CO2_VNM = Bio_VNM*0.49*(44/12) + SoC_VNM*0.25*(44/12) + 2.1*(44/12)
+writeRaster(CO2_VNM, "./DataMap/CO2_VNM.tif")
 plot(CO2_VNM, main = "Potential CO2 Emissions (VNM)")
  
 PA_VNM = vect("./DataMap/WDPA_WDOECM_Mar2023_Public_VNM_shp/WDPA_WDOECM_Mar2023_Public_VNM_shp_2/WDPA_WDOECM_Mar2023_Public_VNM_shp-polygons.shp")
@@ -94,6 +99,7 @@ plot(PA_VNM, add = T, col = 'green')
 deForRisk_VNM = rast("./DataMap/deForRisk_VNM.tif")
 deForRisk_VNM = project(deForRisk_VNM, crs(Country))
 deForRisk_VNM = resample(deForRisk_VNM, CO2_VNM, method = 'bilinear')
+writeRaster(deForRisk_VNM, "./DataMap/deForRisk_VNM.tif", overwrite = T)
 
 CO2_VNM_deFor_3 = CO2_VNM*(deForRisk_VNM > 0.3)
 CO2_VNM_deFor_4 = CO2_VNM*(deForRisk_VNM > 0.4)
@@ -111,12 +117,16 @@ plot(PA_VNM, col = 'grey', alpha = 0.5, add = T)
 AgriRent = rast("./DataMap/Rent2016Com.tif")
 AgriRent = project(AgriRent, crs(Country))
 AgriRent_VNM = crop(AgriRent, VNM, mask = T)
+writeRaster(AgriRent_VNM, "./DataMap/AgriRent_VNM.tif")
 
 plot(AgriRent_VNM, main = "Agricultural Rents (VNM, USD)")
 #revenue (euro dollar)
-CCredit = CO2_VNM_deFor_5*100*1.066
+AgriRent_VNM = resample(AgriRent_VNM, CO2_VNM)
+
+CCredit = CO2_VNM*100*1.086 - AgriRent_VNM
 plot(CCredit, main = "Carbon Credit per hectare (USD)")
 
+writeRaster(CCredit, "./DataMap/CCredit.tif")
 =======
 
 #Additionality
