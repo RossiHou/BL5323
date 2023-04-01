@@ -134,6 +134,21 @@ PUs$AgriRent = PUs$AgriRent/1000000
 
 
 #optimization
+######
+#target: 0.30
+
+#target: 0.25
+
+#target: 0.20
+
+#target: 0.15
+
+#target: 0.10
+
+######
+
+
+
 PUs$PAlog = PUs$PA > 0.5
 PUs$deForRisk_5 = PUs$deForRisk < 0.5
 
